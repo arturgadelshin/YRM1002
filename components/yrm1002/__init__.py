@@ -17,6 +17,7 @@ MULTI_CONF = True
 CONF_YRM1002_ID = "yrm1002_id"
 CONF_SCAN_DURATION = "scan_duration"
 CONF_REPEAT_COUNT = "repeat_count"
+CONF_POWER = "power"
 CONF_TAG_PRESENT = "tag_present"
 
 yrm1002_ns = cg.esphome_ns.namespace("yrm1002")
@@ -31,6 +32,7 @@ YRM1002_SCHEMA = cv.Schema(
         cv.GenerateID(): cv.declare_id(YRM1002),
         cv.Optional(CONF_SCAN_DURATION, default="500ms"): cv.positive_time_period_milliseconds,
         cv.Optional(CONF_REPEAT_COUNT, default=10): cv.uint8_t,
+        cv.Optional(CONF_POWER, default=26): cv.All(cv.uint8_t, cv.Range(min=0, max=26)),
         cv.Optional(CONF_TAG_PRESENT): binary_sensor.binary_sensor_schema(),
         cv.Optional(CONF_ON_TAG): automation.validate_automation(
             {
@@ -54,6 +56,7 @@ async def setup_yrm1002(var, config):
 
     cg.add(var.set_scan_duration(config[CONF_SCAN_DURATION]))
     cg.add(var.set_repeat_count(config[CONF_REPEAT_COUNT]))
+    cg.add(var.set_power(config[CONF_POWER]))
 
     if CONF_TAG_PRESENT in config:
         sens = await binary_sensor.new_binary_sensor(config[CONF_TAG_PRESENT])

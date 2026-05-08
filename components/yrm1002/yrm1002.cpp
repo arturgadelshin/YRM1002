@@ -22,6 +22,15 @@ void YRM1002::setup() {
     this->read_byte(&b);
   }
 
+  uint16_t power_val = (uint16_t)(this->power_ * 100);
+  this->send_command_(CMD_SET_POWER, {(uint8_t)(power_val >> 8), (uint8_t)(power_val & 0xFF)});
+  delay(300);
+
+  while (this->available()) {
+    uint8_t b;
+    this->read_byte(&b);
+  }
+
   this->setup_done_ = true;
   ESP_LOGCONFIG(TAG, "YRM1002 setup complete");
 }
@@ -100,6 +109,7 @@ void YRM1002::dump_config() {
   ESP_LOGCONFIG(TAG, "YRM1002 UHF RFID Reader:");
   ESP_LOGCONFIG(TAG, "  Scan duration: %" PRIu32 "ms", this->scan_duration_);
   ESP_LOGCONFIG(TAG, "  Repeat count: %u", this->repeat_count_);
+  ESP_LOGCONFIG(TAG, "  Power: %u dBm", this->power_);
   LOG_UPDATE_INTERVAL(this);
   for (auto *sensor : this->binary_sensors_) {
     LOG_BINARY_SENSOR("  ", "Tag", sensor);

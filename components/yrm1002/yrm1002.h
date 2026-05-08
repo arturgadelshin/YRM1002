@@ -25,6 +25,8 @@ static const uint8_t CMD_SET_REGION = 0x07;
 static const uint8_t CMD_INVENTORY = 0x22;
 static const uint8_t CMD_READ_MULTI = 0x27;
 static const uint8_t CMD_STOP_MULTI = 0x28;
+static const uint8_t CMD_SET_POWER = 0xB6;
+static const uint8_t CMD_GET_POWER = 0xB7;
 static const uint8_t CMD_EXE_FAILED = 0xFF;
 
 static const uint8_t REGION_EU = 0x03;
@@ -50,6 +52,7 @@ class YRM1002 : public PollingComponent, public uart::UARTDevice {
 
   void set_scan_duration(uint32_t duration) { scan_duration_ = duration; }
   void set_repeat_count(uint8_t count) { repeat_count_ = count; }
+  void set_power(uint8_t power) { power_ = power; }
   void set_tag_present_sensor(binary_sensor::BinarySensor *sensor) { tag_present_sensor_ = sensor; }
   void register_tag(YRM1002BinarySensor *sensor) { binary_sensors_.push_back(sensor); }
   void register_ontag_trigger(YRM1002TagTrigger *trigger) { on_tag_triggers_.push_back(trigger); }
@@ -76,6 +79,7 @@ class YRM1002 : public PollingComponent, public uart::UARTDevice {
   bool scanning_{false};
   uint32_t scan_duration_;
   uint8_t repeat_count_{10};
+  uint8_t power_{26};
   uint32_t scan_start_time_{0};
   bool setup_done_{false};
 };

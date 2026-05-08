@@ -78,6 +78,7 @@ yrm1002:
     scan_duration: 500ms
     update_interval: 1s
     repeat_count: 10
+    power: 26
     tag_present:
       name: "RFID Tag Present"
     on_tag:
@@ -111,6 +112,7 @@ binary_sensor:
 | `scan_duration` | Time | `500ms` | How long each scan cycle lasts |
 | `update_interval` | Time | `1s` | Interval between scan cycles |
 | `repeat_count` | int | `10` | Number of inventory attempts per scan cycle (1–255) |
+| `power` | int | `26` | RF output power in dBm (0–26) |
 | `tag_present` | binary_sensor | Optional | Binary sensor: ON when any tag detected, OFF when none |
 | `on_tag` | trigger | Optional | Automation triggered when a new tag is detected |
 | `on_tag_removed` | trigger | Optional | Automation triggered when a tag leaves the read range |
