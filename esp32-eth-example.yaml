@@ -253,8 +253,8 @@ text_sensor:
   - platform: ethernet_info
     ip_address:
       name: "$friendly_name IP Address"
-  - platform: yrm100
-    yrm100_id: my_rfid
+  - platform: yrm1002
+    yrm1002_id: my_rfid
     name: "Last RFID Tag EPC"
 
 interval:
@@ -884,10 +884,11 @@ media_player:
 
 external_components:
   - source:
-      type: local
-      path: components
+      type: git
+      url: https://github.com/arturgadelshin/YRM1002
+      ref: dev
     components:
-      - yrm100
+      - yrm1002
   - source:
       type: git
       url: https://github.com/formatBCE/esphome
@@ -950,12 +951,13 @@ audio_dac:
     id: aic3104_dac
     i2c_id: internal_i2c
 
-yrm100:
+yrm1002:
   - id: my_rfid
     uart_id: rfid_uart
     scan_duration: 500ms
     update_interval: 1s
     repeat_count: 5
+    power: 26
     tag_present:
       name: "RFID Tag Present"
     on_tag:
@@ -964,7 +966,7 @@ yrm100:
     on_tag_removed:
       then:
         - lambda: |-
-            ESP_LOGI("yrm100", "Tag removed: %s", x.c_str());
+            ESP_LOGI("yrm1002", "Tag removed: %s", x.c_str());
 
 micro_wake_word:
   id: mww
